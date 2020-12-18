@@ -20,4 +20,4 @@ run_trtexec:  ## Run docker for building tensort model
 	$(DOCKER_RUN) $(DOCKER_ARGS) nvcr.io/nvidia/tensorrt:20.12-py3 $(cmd)
 
 convert_trt:  ## Convert onnx model for trtexec (provide yolov4.onnx in root dir)
-	$(DOCKER_RUN) $(DOCKER_ARGS) nvcr.io/nvidia/tensorrt:20.12-py3 trtexec --onnx=yolov4.onnx --explicitBatch --shapes=input:16x3x416x416 --minShapes=input:1x3x416x416 --optShapes=input:4x3x416x416 --maxShapes=input:16x3x416x416 --workspace=4096 --saveEngine=yolo.engine --fp16
+	$(DOCKER_RUN) $(DOCKER_ARGS) nvcr.io/nvidia/tensorrt:20.12-py3 trtexec --onnx=/app/yolov4.onnx --explicitBatch --shapes=input:16x3x416x416 --minShapes=input:1x3x416x416 --optShapes=input:4x3x416x416 --maxShapes=input:16x3x416x416 --workspace=4096 --saveEngine=/app/yolo.engine --fp16
