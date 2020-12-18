@@ -24,7 +24,7 @@ A minimal PyTorch implementation of YOLOv4.
 ├── train.py              train models.py
 ├── cfg.py                cfg.py for train
 ├── cfg                   cfg --> darknet2pytorch
-├── data            
+├── data
 ├── weight                --> darknet2pytorch
 ├── tool
 │   ├── camera.py           a demo camera
@@ -48,7 +48,7 @@ A minimal PyTorch implementation of YOLOv4.
 you can use darknet2pytorch to convert it yourself, or download my converted model.
 
 - baidu
-    - yolov4.pth(https://pan.baidu.com/s/1ZroDvoGScDgtE1ja_QqJVw Extraction code:xrq9) 
+    - yolov4.pth(https://pan.baidu.com/s/1ZroDvoGScDgtE1ja_QqJVw Extraction code:xrq9)
     - yolov4.conv.137.pth(https://pan.baidu.com/s/1ovBie4YyVQQoUrC3AY0joA Extraction code:kcel)
 - google
     - yolov4.pth(https://drive.google.com/open?id=1wv_LiFeCRYwtpkqREPeI13-gPELBDwuJ)
@@ -126,7 +126,7 @@ width  = 320 + 96 * m, m in {0, 1, 2, 3, ...}
     ```sh
     python models.py <num_classes> <weightfile> <imgfile> <IN_IMAGE_H> <IN_IMAGE_W> <namefile(optional)>
     ```
-    
+
 - Load converted ONNX file to do inference (See section 3 and 4)
 
 - Load converted TensorRT engine file to do inference (See section 5)
@@ -238,9 +238,9 @@ python demo_trt.py <tensorRT_engine_file> <input_image> <input_H> <input_W>
 ```
 
 - This demo here only works when batchSize is dynamic (1 should be within dynamic range) or batchSize=1, but you can update this demo a little for other dynamic or static batch sizes.
-    
+
 - Note1: input_H and input_W should agree with the input size in the original ONNX file.
-    
+
 - Note2: extra NMS operations are needed for the tensorRT output. This demo uses python NMS code from `tool/utils.py`.
 
 
@@ -249,40 +249,40 @@ python demo_trt.py <tensorRT_engine_file> <input_image> <input_H> <input_W>
 - **First:Conversion to ONNX**
 
     tensorflow >=2.0
-    
+
     1: Thanks:github:https://github.com/onnx/onnx-tensorflow
-    
+
     2: Run git clone https://github.com/onnx/onnx-tensorflow.git && cd onnx-tensorflow
     Run pip install -e .
-    
+
     Note:Errors will occur when using "pip install onnx-tf", at least for me,it is recommended to use source code installation
 
 # 7. ONNX2TensorRT and DeepStream Inference
-  
-  1. Compile the DeepStream Nvinfer Plugin 
-  
+
+  1. Compile the DeepStream Nvinfer Plugin
+
   ```
       cd DeepStream
-      make 
+      make
   ```
   2. Build a TRT Engine.
-  
-   For single batch, 
+
+   For single batch,
    ```
    trtexec --onnx=<onnx_file> --explicitBatch --saveEngine=<tensorRT_engine_file> --workspace=<size_in_megabytes> --fp16
    ```
-   
-   For multi-batch, 
+
+   For multi-batch,
   ```
   trtexec --onnx=<onnx_file> --explicitBatch --shapes=input:Xx3xHxW --optShapes=input:Xx3xHxW --maxShapes=input:Xx3xHxW --minShape=input:1x3xHxW --saveEngine=<tensorRT_engine_file> --fp16
   ```
-  
+
   Note :The maxShapes could not be larger than model original shape.
-  
+
   3. Write the deepstream config file for the TRT Engine.
-  
-  
-   
+
+
+
 Reference:
 - https://github.com/eriklindernoren/PyTorch-YOLOv3
 - https://github.com/marvis/pytorch-caffe-darknet-convert

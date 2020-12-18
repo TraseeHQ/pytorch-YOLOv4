@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED=1 \
     TORCH_HOME="/app/pretrained"
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -yqq gosu build-essential
+    && apt-get install --no-install-recommends -yqq gosu build-essential libgl1-mesa-glx libglib2.0-0
 
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
